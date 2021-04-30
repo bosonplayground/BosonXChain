@@ -58,6 +58,16 @@ module.exports = {
           path: "m/44'/60'/0'/0",
       },
     },
+    arbitrumTestnet: {
+      url: 'https://kovan4.arbitrum.io/rpc',
+      accounts: {
+        count: 10,
+        initialIndex: 0,
+        mnemonic: process.env.MNEMONIC,
+        path: "m/44'/60'/0'/0",
+    },
+      gasPrice: 0,
+    },
   },
   mocha: {
     timeout: 20000
