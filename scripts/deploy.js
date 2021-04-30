@@ -72,7 +72,7 @@ async function main() {
 
     await cashier.deployed().then(async(instance) => {
         await instance.setBosonRouterAddress(bosonRouter.address).then(tx =>
-            console.log("\n$ Cashier BosonRouter address"))
+            console.log("\n$ Cashier set BosonRouter address"))
     });
 
     await cashier.deployed().then(async(instance) => {
