@@ -533,6 +533,16 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         _mint(_to, _tokenId, _value, _data);
     }
 
+
+    function tmint(
+        address _to,
+        uint256 _tokenId,
+        uint256 _value,
+        bytes memory _data
+    ) external {
+        _mint(_to, _tokenId, _value, _data);
+    }
+
     /**
      * @notice Internal function to mint an amount of a desired token
      * @dev ERC-1155
