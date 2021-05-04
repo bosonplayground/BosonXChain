@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-truffle5");
 
 
 const dotenvConfig = require('dotenv').config;
