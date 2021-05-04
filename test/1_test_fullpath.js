@@ -13,6 +13,7 @@ const VoucherKernel = artifacts.require('VoucherKernel');
 const Cashier = artifacts.require('Cashier');
 const BosonRouter = artifacts.require('BosonRouter');
 const FundLimitsOracle = artifacts.require('FundLimitsOracle');
+const LocalOracle = artifacts.require("LocalOracle")
 const BN = web3.utils.BN;
 
 contract('Voucher tests', async (accounts) => {
@@ -22,6 +23,7 @@ contract('Voucher tests', async (accounts) => {
     contractVoucherKernel,
     contractCashier,
     contractBosonRouter,
+    contractLocalOracle,
     contractFundLimitsOracle;
   let tokenSupplyKey1,
     tokenSupplyKey2,
@@ -35,6 +37,7 @@ contract('Voucher tests', async (accounts) => {
 
     contractFundLimitsOracle = await FundLimitsOracle.new();
     contractERC1155ERC721 = await ERC1155ERC721.new();
+    contractLocalOracle = await LocalOracle.new(contractERC1155ERC721.address)
     contractVoucherKernel = await VoucherKernel.new(
       contractERC1155ERC721.address
     );
@@ -53,6 +56,8 @@ contract('Voucher tests', async (accounts) => {
     await contractERC1155ERC721.setVoucherKernelAddress(
       contractVoucherKernel.address
     );
+
+    await contractERC1155ERC721.setLocalOracleAddress(contractLocalOracle.address);
 
     await contractERC1155ERC721.setCashierAddress(contractCashier.address);
 

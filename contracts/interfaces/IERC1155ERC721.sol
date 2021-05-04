@@ -49,4 +49,5 @@ interface IERC1155ERC721 {
         address indexed _operator,
         bool _approved
     );
+
 }
