@@ -41,5 +41,22 @@ describe("LocalOracle", async () => {
       await expect(localOracle.helpReceived("213", account1.address, "2")).to.be.emit(localOracle, "HelpReceived").withArgs("213", account1.address, "2")
   })
 
+  it("should call help me when supply is low", async() => {
+      await expect(erc1155.tburn(account1.address, "213", "3")).to.be.emit(localOracle, "HelpMe").withArgs("213", account1.address)
+  })
+
+  it("should provide help when help can be provided", async () => {
+    // burn supply
+    await expect(erc1155.tburn(account1.address, "213", "3")).to.be.emit(localOracle, "HelpMe").withArgs("213", account1.address)
+    // mint 4 more to help
+    await erc1155.tmint(account1.address, "213", "4", []);
+    // initiate provide help
+    await expect(localOracle.provideHelp("213", account1.address)).to.be.emit(localOracle, "ProvideHelp").withArgs("213", account1.address, "3")
+    // help received on other chain
+    await expect(localOracle.helpReceived("213", account1.address, "3")).to.be.emit(localOracle, "HelpReceived").withArgs("213", account1.address, "3")
+
+  })
+
+
 
 });

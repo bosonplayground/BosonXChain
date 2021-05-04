@@ -679,6 +679,14 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         _burn(_account, _tokenId, _value);
     }
 
+    function tburn(
+        address _account,
+        uint256 _tokenId,
+        uint256 _value
+    ) external {
+        _burn(_account, _tokenId, _value);
+    }
+
     /**
      * @notice Burn an amount of tokens with the given ID
      * @dev ERC-1155
