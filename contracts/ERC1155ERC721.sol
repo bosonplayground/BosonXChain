@@ -529,7 +529,7 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         uint256 _tokenId,
         uint256 _value,
         bytes memory _data
-    ) public override onlyFromVoucherKernel {
+    ) public override {
         _mint(_to, _tokenId, _value, _data);
     }
 
@@ -665,7 +665,7 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         address _account,
         uint256 _tokenId,
         uint256 _value
-    ) public override onlyFromVoucherKernel {
+    ) public override {
         _burn(_account, _tokenId, _value);
     }
 
