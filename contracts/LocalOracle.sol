@@ -12,7 +12,7 @@ contract LocalOracle is ILocalOracle {
     using SafeMath for uint256;
 
     // reference for ERC1155ERC721 contract
-    ERC1155ERC721 ERC1155;
+    ERC1155ERC721 erc1155erc721;
 
     // the event which will be emitted when help is needed from other blockchains
     event HelpMe(uint256 indexed tokenId, address indexed owner);
@@ -24,7 +24,7 @@ contract LocalOracle is ILocalOracle {
  
     // set the ERC1155 address
     constructor(address _erc1155) {
-        ERC1155 = ERC1155ERC721(_erc1155);
+        erc1155erc721 = ERC1155ERC721(_erc1155);
     }
 
     /**
@@ -40,7 +40,7 @@ contract LocalOracle is ILocalOracle {
     function which is called by an external party to confirm that help is received
     */
     function helpReceived(uint256 _tokenId, address _owner, uint256 _quantity) external override {
-        ERC1155.mint(_owner, _tokenId, _quantity, "");
+        erc1155erc721.mint(_owner, _tokenId, _quantity, "");
         emit HelpReceived(_tokenId, _owner, _quantity);
     }
 
@@ -49,12 +49,12 @@ contract LocalOracle is ILocalOracle {
      */
     function provideHelp(uint256 _tokenId, address _owner) external override {
         // check quantity
-        uint balance = ERC1155.balanceOf(_owner, _tokenId);
+        uint balance = erc1155erc721.balanceOf(_owner, _tokenId);
         
         //burn
         if (balance > 2) {
             uint256 helpQuantity = balance.sub(2);
-            ERC1155.burn(_owner, _tokenId, helpQuantity);
+            erc1155erc721.burn(_owner, _tokenId, helpQuantity);
             emit ProvideHelp(_tokenId, _owner, helpQuantity);
         }
     }
