@@ -30,8 +30,8 @@ contract LocalOracle is ILocalOracle {
     /**
         function which is callled when ERC115 quantity is burned
      */
-    function helpMe(uint256 _quanityRemaining, address _account, uint256 _tokenId) external override {
-        if(_quanityRemaining < 2) {
+    function helpMe(uint256 _quantityRemaining, address _account, uint256 _tokenId) external override {
+        if(_quantityRemaining < 2) {
             emit HelpMe(_tokenId, _account);
         }
     }
