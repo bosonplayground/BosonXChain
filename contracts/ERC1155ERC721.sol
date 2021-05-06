@@ -70,15 +70,9 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
 
     modifier onlyFromVoucherKernelOrLocalOracle() {
         require(
-            voucherKernelAddress != address(0),
-            "UNSPECIFIED_VOUCHERKERNEL"
-        );
-
-        require(
-            localOracleAddress != address(0),
-            "UNSPECIFIED_VOUCHERKERNEL"
-        ); 
-        require(msg.sender == voucherKernelAddress || msg.sender == localOracleAddress, "UNAUTHORIZED_VK"); //hex"10" FISSION.code(FISSION.Category.Permission, FISSION.Status.Disallowed_Stop)
+            ((msg.sender == voucherKernelAddress) && (voucherKernelAddress != address(0)))
+             || ((msg.sender == localOracleAddress) && (localOracleAddress != address(0)))
+             , "UNAUTHORIZED_VK"); //hex"10" FISSION.code(FISSION.Category.Permission, FISSION.Status.Disallowed_Stop)
         _;
     }
 

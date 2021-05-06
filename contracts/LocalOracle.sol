@@ -24,7 +24,7 @@ contract LocalOracle is ILocalOracle {
  
     // set the ERC1155 address
     function setERC1155(address _erc1155) external {
-        ERC1155 = ERC1155ERC721(_erc1155);
+        erc1155erc721 = ERC1155ERC721(_erc1155);
     }
 
     /**
