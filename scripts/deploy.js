@@ -25,6 +25,11 @@ async function main() {
     await erc1155721.deployed();
     console.log("ERC1155ERC721 deployed to:", erc1155721.address);
 
+    const LocalOracle =  await hre.ethers.getContractFactory("LocalOracle");
+    const localOracle = await LocalOracle.deploy(erc1155721.address);
+    await localOracle.deployed();
+    console.log("LocalOracle deployed to:", localOracle.address);
+
     //Deploy VoucherKernel
     const VoucherKernel = await hre.ethers.getContractFactory("VoucherKernel");
     const voucherKernel = await VoucherKernel.deploy(erc1155721.address);
@@ -48,6 +53,7 @@ async function main() {
     await erc1155721.deployed().then(async(instance) => {
         await instance.setApprovalForAll(voucherKernel.address, 'true').then(tx =>
             console.log("\n$ ERC1155ERC721 approved VoucherKernel"))
+        await instance.setLocalOracleAddress(localOracle.address).then(tx => console.log("\n$ ERC1155ERC721 set LocalOracle"))
     });
 
     await erc1155721.deployed().then(async(instance) => {
