@@ -25,8 +25,8 @@ async function main() {
     await erc1155721.deployed();
     console.log("ERC1155ERC721 deployed to:", erc1155721.address);
 
-    const LocalOracle =  await hre.ethers.getContractFactory("LocalOracle");
-    const localOracle = await LocalOracle.deploy(erc1155721.address);
+    const LocalOracle = await hre.ethers.getContractFactory("LocalOracle");
+    const localOracle = await LocalOracle.deploy();
     await localOracle.deployed();
     console.log("LocalOracle deployed to:", localOracle.address);
 
@@ -50,51 +50,57 @@ async function main() {
 
     //Call admin functions
     console.log("$ Setting initial values ...");
-    await erc1155721.deployed().then(async(instance) => {
-        await instance.setApprovalForAll(voucherKernel.address, 'true').then(tx =>
-            console.log("\n$ ERC1155ERC721 approved VoucherKernel"))
-        await instance.setLocalOracleAddress(localOracle.address).then(tx => console.log("\n$ ERC1155ERC721 set LocalOracle"))
+    await erc1155721.setApprovalForAll(voucherKernel.address, 'true').then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ ERC1155ERC721 approved VoucherKernel");
+    });
+    await erc1155721.setLocalOracleAddress(localOracle.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ ERC1155ERC721 set LocalOracle");
     });
 
-    await erc1155721.deployed().then(async(instance) => {
-        await instance.setVoucherKernelAddress(voucherKernel.address).then(tx =>
-            console.log("\n$ ERC1155ERC721 set VoucherKernel address"))
+    await erc1155721.setVoucherKernelAddress(voucherKernel.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ ERC1155ERC721 set VoucherKernel address");
     });
 
-    await erc1155721.deployed().then(async(instance) => {
-        await instance.setCashierAddress(cashier.address).then(tx =>
-            console.log("\n$ ERC1155ERC721 set Cashier address"))
+    await erc1155721.setCashierAddress(cashier.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ ERC1155ERC721 set Cashier address");
     });
 
-    await voucherKernel.deployed().then(async(instance) => {
-        await instance.setBosonRouterAddress(bosonRouter.address).then(tx =>
-            console.log("\n$ VoucherKernel set BosonRouter address"))
+    await voucherKernel.setBosonRouterAddress(bosonRouter.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ VoucherKernel set BosonRouter address");
     });
 
-    await voucherKernel.deployed().then(async(instance) => {
-        await instance.setCashierAddress(cashier.address).then(tx =>
-            console.log("\n$ VoucherKernel set Cashier address"))
+    await voucherKernel.setCashierAddress(cashier.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ VoucherKernel set Cashier address");
     });
 
-    await cashier.deployed().then(async(instance) => {
-        await instance.setBosonRouterAddress(bosonRouter.address).then(tx =>
-            console.log("\n$ Cashier set BosonRouter address"))
+    await cashier.setBosonRouterAddress(bosonRouter.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ Cashier set BosonRouter address");
     });
 
-    await cashier.deployed().then(async(instance) => {
-        await instance.setTokenContractAddress(erc1155721.address).then(tx =>
-            console.log("\n$ Cashier set token contract address"))
+    await cashier.setTokenContractAddress(erc1155721.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ Cashier set token contract address");
     });
 
-
+    await localOracle.setERC1155(erc1155721.address).then(async(tx) => {
+        await tx.wait();
+        console.log("\n$ LocalOracle set token contract address");
+    });
 
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main()
-  .then(() => process.exit(0))
-  .catch(error => {
-    console.error(error);
-    process.exit(1);
-  });
+    .then(() => process.exit(0))
+    .catch(error => {
+        console.error(error);
+        process.exit(1);
+    });
