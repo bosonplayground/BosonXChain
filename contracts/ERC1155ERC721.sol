@@ -68,6 +68,20 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         _;
     }
 
+    modifier onlyFromVoucherKernelOrLocalOracle() {
+        require(
+            voucherKernelAddress != address(0),
+            "UNSPECIFIED_VOUCHERKERNEL"
+        );
+
+        require(
+            localOracleAddress != address(0),
+            "UNSPECIFIED_VOUCHERKERNEL"
+        ); 
+        require(msg.sender == voucherKernelAddress || msg.sender == localOracleAddress, "UNAUTHORIZED_VK"); //hex"10" FISSION.code(FISSION.Category.Permission, FISSION.Status.Disallowed_Stop)
+        _;
+    }
+
     modifier notZeroAddress(address _address) {
         require(_address != address(0), "ZERO_ADDRESS");
         _;
@@ -529,7 +543,7 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         uint256 _tokenId,
         uint256 _value,
         bytes memory _data
-    ) public override {
+    ) public override onlyFromVoucherKernelOrLocalOracle {
         _mint(_to, _tokenId, _value, _data);
     }
 
@@ -665,7 +679,7 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         address _account,
         uint256 _tokenId,
         uint256 _value
-    ) public override {
+    ) public override onlyFromVoucherKernelOrLocalOracle {
         _burn(_account, _tokenId, _value);
     }
 
