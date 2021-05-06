@@ -23,8 +23,8 @@ contract LocalOracle is ILocalOracle {
     event ProvideHelp(uint256 indexed tokenId, address indexed owner, uint256 indexed amount);
  
     // set the ERC1155 address
-    constructor(address _erc1155) {
-        erc1155erc721 = ERC1155ERC721(_erc1155);
+    function setERC1155(address _erc1155) external {
+        ERC1155 = ERC1155ERC721(_erc1155);
     }
 
     /**
