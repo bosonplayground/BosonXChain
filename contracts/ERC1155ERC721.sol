@@ -33,6 +33,7 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
     //standard reqs
     //ERC-1155
     mapping(uint256 => mapping(address => uint256)) private balances; //balance of token ids of an account
+    mapping(uint256 => address) private owners1155;
 
     //ERC-721
     mapping(address => uint256) private balance721;
@@ -439,8 +440,13 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
      * @return address currently marked as the owner of the given token ID
      */
     function ownerOf(uint256 _tokenId) public view override returns (address) {
-        address tokenOwner = owners721[_tokenId];
-        require(tokenOwner != address(0), "UNDEFINED_OWNER"); //hex"20" FISSION.code(FISSION.Category.Find, FISSION.Status.NotFound_Unequal_OutOfRange)
+        // Try the ERC1155 first...
+        address tokenOwner = owners1155[_tokenId];
+        if (tokenOwner == address(0)) {
+            // The ID is not the one from an ERC1155, try the ERC721s
+            tokenOwner = owners721[_tokenId];
+            require(tokenOwner != address(0), "UNDEFINED_OWNER"); //hex"20" FISSION.code(FISSION.Category.Find, FISSION.Status.NotFound_Unequal_OutOfRange)
+        }
 
         return tokenOwner;
     }
@@ -568,6 +574,8 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
         require(_to != address(0), "UNSPECIFIED_ADDRESS"); //FISSION.code(FISSION.Category.Find, FISSION.Status.NotFound_Unequal_OutOfRange)
 
         balances[_tokenId][_to] = balances[_tokenId][_to].add(_value);
+        owners1155[_tokenId] = _to;
+
         emit TransferSingle(msg.sender, address(0), _to, _tokenId, _value);
 
         _doSafeTransferAcceptanceCheck(
