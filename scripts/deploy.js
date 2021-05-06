@@ -49,50 +49,55 @@ async function main() {
     console.log("BosonRouter deployed to:", bosonRouter.address);
 
     //Call admin functions
+    const promises = [];
     console.log("$ Setting initial values ...");
-    await erc1155721.setApprovalForAll(voucherKernel.address, 'true').then(async(tx) => {
-        await tx.wait();
+    await erc1155721.setApprovalForAll(voucherKernel.address, 'true').then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ ERC1155ERC721 approved VoucherKernel");
     });
-    await erc1155721.setLocalOracleAddress(localOracle.address).then(async(tx) => {
-        await tx.wait();
+    await erc1155721.setLocalOracleAddress(localOracle.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ ERC1155ERC721 set LocalOracle");
     });
 
-    await erc1155721.setVoucherKernelAddress(voucherKernel.address).then(async(tx) => {
-        await tx.wait();
+    await erc1155721.setVoucherKernelAddress(voucherKernel.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ ERC1155ERC721 set VoucherKernel address");
     });
 
-    await erc1155721.setCashierAddress(cashier.address).then(async(tx) => {
-        await tx.wait();
+    await erc1155721.setCashierAddress(cashier.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ ERC1155ERC721 set Cashier address");
     });
 
-    await voucherKernel.setBosonRouterAddress(bosonRouter.address).then(async(tx) => {
-        await tx.wait();
+    await voucherKernel.setBosonRouterAddress(bosonRouter.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ VoucherKernel set BosonRouter address");
     });
 
-    await voucherKernel.setCashierAddress(cashier.address).then(async(tx) => {
-        await tx.wait();
+    await voucherKernel.setCashierAddress(cashier.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ VoucherKernel set Cashier address");
     });
 
-    await cashier.setBosonRouterAddress(bosonRouter.address).then(async(tx) => {
-        await tx.wait();
+    await cashier.setBosonRouterAddress(bosonRouter.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ Cashier set BosonRouter address");
     });
 
-    await cashier.setTokenContractAddress(erc1155721.address).then(async(tx) => {
-        await tx.wait();
+    await cashier.setTokenContractAddress(erc1155721.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ Cashier set token contract address");
     });
 
-    await localOracle.setERC1155(erc1155721.address).then(async(tx) => {
-        await tx.wait();
+    await localOracle.setERC1155(erc1155721.address).then((tx) => {
+        promises.push(tx.wait());
         console.log("\n$ LocalOracle set token contract address");
     });
+
+    console.log('\n...');
+    await Promise.all(promises);
+    console.log('\n$ All done !');
 
 }
 
