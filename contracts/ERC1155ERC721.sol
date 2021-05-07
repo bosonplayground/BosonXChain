@@ -32,7 +32,7 @@ contract ERC1155ERC721 is IERC1155, IERC721, IERC1155ERC721 {
 
     //standard reqs
     //ERC-1155
-    mapping(uint256 => mapping(address => uint256)) private balances; //balance of token ids of an account
+    mapping(uint256 => mapping(address => uint256)) public balances; //balance of token ids of an account
     mapping(uint256 => address) private owners1155;
 
     //ERC-721
