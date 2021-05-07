@@ -25,6 +25,7 @@ async function main() {
     await erc1155721.deployed();
     console.log("ERC1155ERC721 deployed to:", erc1155721.address);
 
+    //Deploy LocalOracle
     const LocalOracle = await hre.ethers.getContractFactory("LocalOracle");
     const localOracle = await LocalOracle.deploy();
     await localOracle.deployed();
