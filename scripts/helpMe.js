@@ -9,9 +9,9 @@ const hre = require("hardhat");
 const contracts = {
     localOracle: {
         ganache: '0x1cbe1D34901Cb6A9c456C2d78097037A64122c29',
-        mumbai: '0xE73C3C79fA4B3a66f378f97f7e5993591FCde2C3',
+        mumbai: '0x841E6A492eDc0EC6dAB8Cfa0D6173Ad56b8A136c',
         arbitrumTestnet: '0xca581e57726802037fF90cAE23e704b4Bb927C62',
-        goerli: ''
+        goerli: '0x697d96F5C2f3DFCC8A0361070f19BE6eFDDEC0f7'
     },
 }
 

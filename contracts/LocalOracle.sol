@@ -15,7 +15,7 @@ contract LocalOracle is ILocalOracle {
     ERC1155ERC721 erc1155erc721;
 
     // the event which will be emitted when help is needed from other blockchains
-    event HelpMe(uint256 indexed tokenId);
+    event HelpMe(uint256 tokenId);
     // the event which will be emitted once help is received
     event HelpReceived(uint256 indexed tokenId, address indexed owner, uint256 indexed amount);
     // the event which will be emitted once a contract has burned their supply to help and proven 
